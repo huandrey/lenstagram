@@ -1,13 +1,27 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
+
+import * as controller from "../controllers/user.controller";
+import { UserRepository } from "../repositories/UsersRepository";
+import { CreateUserService } from "../services/CreateUserService";
 
 const userRoutes = Router();
+const userController = controller.default();
 
-const users = [];
+userRoutes.post("/", (req, res) => {
+  userController.create(req, res);
+});
 
-userRoutes.post("/user", (req: Request, res: Response) => {
-  const { name, email, password } = req.body;
+userRoutes.get("/", (req, res) => {
+  const allUsers = userController.getAll(req, res);
+  return res.json(allUsers);
+});
 
-  users.push({ name, email, password });
+userRoutes.put("/:id", (req, res) => {
+  userController.edit(req, res);
+});
+
+userRoutes.post("/login", (req, res) => {
+  userController.login(req, res);
 });
 
 export { userRoutes };

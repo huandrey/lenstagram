@@ -1,0 +1,187 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Lenstagram Documentation",
+    "description": "This is an API Lenstagram",
+    "version": "1.0.0",
+    "contact": {
+      "email": "huandrey.pontes@ccc.ufcg.edu.br"
+    }
+  },
+  "paths": {
+    "/user": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Create a user",
+        "description": "Create a new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  },
+                  "data": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "name": "Carlos Alberto",
+                  "email": "carlos@email.com",
+                  "password": "12345678"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "User successfully created"
+                      },
+                      "data": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "Carlos Alberto"
+                          },
+                          "email": {
+                            "type": "string",
+                            "example": "carlos@email.com"
+                          },
+                          "password": {
+                            "type": "string",
+                            "example": "12345678"
+                          },
+                          "created_at": {
+                            "type": "string",
+                            "example": "2021-10-22T00:23:26.169Z"
+                          },
+                          "updated_at": {
+                            "type": "string",
+                            "example": "2021-10-22T00:23:26.169Z"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Something went wrong!"
+          }
+        }
+      },
+      "get": {
+        "tags": ["User"],
+        "summary": "List all users",
+        "description": "List all users",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Users successfully found!"
+                      },
+                      "data": {
+                        "type": "array",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "Carlos Alberto"
+                          },
+                          "email": {
+                            "type": "string",
+                            "example": "carlos@email.com"
+                          },
+                          "password": {
+                            "type": "string",
+                            "example": "12345678"
+                          },
+                          "created_at": {
+                            "type": "string",
+                            "example": "2021-10-22T00:23:26.169Z"
+                          },
+                          "updated_at": {
+                            "type": "string",
+                            "example": "2021-10-22T00:23:26.169Z"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Something went wrong!"
+          }
+        }
+      },
+      "put": {
+        "tags": ["User"],
+        "summary": "Update a user",
+        "description": "Update a user",
+        "responses": {
+          "200": {
+            "description": "User successfully updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "password": {
+                        "type": "string"
+                      }
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
