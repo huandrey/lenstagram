@@ -3,6 +3,7 @@ import swagger from "swagger-ui-express";
 
 import { router } from "./routes";
 import swaggerFile from "./swagger.json";
+import "./database";
 
 const app = express();
 
@@ -14,4 +15,4 @@ app.get("/", (req, res) => {
   res.json({ msg: "opa" });
 });
 
-app.listen(8080, () => console.log("App is running on port 8080"));
+app.listen(3333, () => console.log("App is running on port 3333"));

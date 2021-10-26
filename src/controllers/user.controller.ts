@@ -45,7 +45,6 @@ export default () => {
         email,
         password,
       });
-
       return res.status(201).send({
         message: "User successfully created",
         data: user,
