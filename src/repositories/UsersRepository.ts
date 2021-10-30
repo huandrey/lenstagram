@@ -1,77 +1,77 @@
-/* eslint prefer-destructuring: 0 */
-import { User } from "../model/User";
-import { IUserRepository, ICreateUserDTO } from "./IUsersRepository";
+// /* eslint prefer-destructuring: 0 */
+// import { getRepository, Repository } from "typeorm";
 
-class UserRepository implements IUserRepository {
-  private users: User[];
+// import { User } from "../entities/User";
+// import { IUserRepository, ICreateUserDTO } from "./IUsersRepository";
 
-  constructor() {
-    this.users = [];
-  }
+// class UserRepository implements IUserRepository {
+//   private repository: Repository<User>;
 
-  create({ name, email, password }: ICreateUserDTO): User {
-    const user = new User();
+//   constructor() {
+//     this.repository = getRepository(User);
+//   }
 
-    Object.assign(user, {
-      name,
-      email,
-      password,
-      created_at: new Date(),
-      updated_at: new Date(),
-    });
-    this.users.push(user);
+//   async create({ name, email, password }: ICreateUserDTO): Promise<User> {
+//     const user = this.repository.create({
+//       name,
+//       email,
+//       password,
+//     });
 
-    return user;
-  }
+//     await this.repository.save(user);
 
-  list(): User[] {
-    console.log(this.users.length);
-    return this.users;
-  }
+//     return user;
+//   }
 
-  findByEmail(email: string): User {
-    console.log(this.users.length);
+//   async list(): Promise<User[]> {
+//     const users = await this.repository.find();
+//     return users;
+//   }
 
-    return this.users.find((user) => user.email === email);
-  }
+//   async findByEmail(email: string): Promise<User> {
+//     const user = this.repository.findOne({ email });
 
-  findById(id: string): User {
-    return this.users.find((user) => user.id === id);
-  }
+//     return user;
+//   }
 
-  someFieldIsEmpty({ name, email, password }: User): boolean {
-    return !name || !email || !password;
-  }
+//   async findById(id: string): Promise<User> {
+//     const user = this.repository.findOne({ id });
 
-  editUser(id: string, data): User {
-    const user = this.findById(id);
+//     return user;
+//   }
 
-    const validation = this.checkPermission(data.password, user.password);
+//   someFieldIsEmpty({ name, email, password }: User): boolean {
+//     return !name || !email || !password;
+//   }
 
-    if (!validation) {
-      return null;
-    }
+//   editUser(id: string, data): Promise<User> {
+//     const user = this.findById(id);
 
-    Object.entries(data).forEach((val) => {
-      user[val[0]] = val[1];
-    });
+//     const validation = this.checkPermission(data.password, user.password);
 
-    user.updated_at = new Date();
+//     if (!validation) {
+//       return null;
+//     }
 
-    this.update(id, user);
+//     Object.entries(data).forEach((val) => {
+//       user[val[0]] = val[1];
+//     });
 
-    return user;
-  }
+//     // user.updated_at = new Date();
 
-  update(id: string, newUser: User): void {
-    const newUsers = this.users.map((user) => user.id === id && newUser);
+//     // this.update(id, user);
 
-    this.users = newUsers;
-  }
+//     return user;
+//   }
 
-  checkPermission(password: string, userPassword: string): boolean {
-    return password === userPassword;
-  }
-}
+//   update(id: string, newUser: User): void {
+//     // const newUsers = this.users.map((user) => user.id === id && newUser);
+//     // this.users = newUsers;
+//   }
 
-export { UserRepository };
+//   checkPermission(password: string, userPassword: string): boolean {
+//     return password === userPassword;
+//   }
+// }
+
+// export { UserRepository };

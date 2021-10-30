@@ -11,8 +11,4 @@ app.use(express.json());
 app.use("/api-docs", swagger.serve, swagger.setup(swaggerFile));
 app.use(router);
 
-app.get("/", (req, res) => {
-  res.json({ msg: "opa" });
-});
-
 app.listen(3333, () => console.log("App is running on port 3333"));

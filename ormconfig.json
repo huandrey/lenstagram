@@ -4,5 +4,10 @@
   "host": "localhost",
   "username": "docker", 
   "password": "mydocker", 
-  "database": "lenstagram"
+  "database": "lenstagram",
+  "migrations": ["./src/database/migrations/*.ts"],
+  "entities": ["./src/entities/*.ts"],
+  "cli": {
+    "migrationsDir": "./src/database/migrations"
+  }
 }
