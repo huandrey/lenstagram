@@ -1,121 +1,191 @@
-import { Request, Response } from "express";
-import { getRepository } from "typeorm";
+// import { Request, Response } from "express";
+// import { getRepository } from "typeorm";
 
-import { User } from "../entities/User";
-import { validateEmail } from "../utils/validations";
+// import { User } from "../entities/User";
+// // import { UserRepository } from "../repositories/UsersRepository";
+// // import { validateEmail } from "../utils/validations";
 
-export default () => {
-  return {
-    create: async (req: Request, res: Response) => {
-      const { name, email, password } = req.body;
+// export class UserController {
+//   private userRepository = getRepository(User);
 
-      // const userAlreadyExists = userRepository().findByEmail(email);
-      const userRepository = getRepository(User);
+//   // async all(req: Request, res: Response) {}
 
-      const userAlreadyExists = await userRepository.findOne({ email });
+//   async save(req: Request, res: Response) {
+//     const { name, email, password } = req.body;
 
-      const emptyFields = !name || !email || !password;
+//     if (!name || !email || !password)
+//       return res.status(400).send({
+//         message: `All fields need to be filled!`,
+//       });
 
-      const emailIsValid = validateEmail(email);
+//     const userAlreadyExists = await this.userRepository.findOne({ email });
 
-      if (userAlreadyExists)
-        return res.status(400).send({
-          message: `User already exists!`,
-        });
+//     if (userAlreadyExists)
+//       return res.status(400).json({
+//         message: "User already exists.",
+//       });
 
-      if (emptyFields)
-        return res.status(400).send({
-          message: `All fields need to be filled!`,
-        });
+//     if (password.length < 8)
+//       return res.status(400).json({
+//         message: "Password must be at least 8 characters.",
+//       });
 
-      if (!emailIsValid)
-        return res.status(400).send({
-          message: `Email is invalid`,
-        });
+//     try {
+//       const user = this.userRepository.create({
+//         name,
+//         email,
+//         password,
+//       });
 
-      if (password.length < 8)
-        return res.status(400).send({
-          message: `Password is invalid`,
-        });
+//       return res.status(201).json({
+//         message: "User successfully created",
+//         data: user,
+//       });
+//     } catch (err) {
+//       return res.status(400).send({
+//         message: err.message || "Unexpected error.",
+//       });
+//     }
+//   }
+// }
 
-      console.log(userAlreadyExists);
+// // export default () => {
+// //   const userRepository = new UserRepository();
+// //   return {
+// //     create: async (req: Request, res: Response) => {
+// //       const { name, email, password } = req.body;
 
-      const user = userRepository.create({
-        name,
-        email,
-        password,
-      });
+// //       // const userRepository = getRepository(User);
 
-      console.log(user);
-      // console.log(user);
-      await userRepository.save(user);
+// //       // const userAlreadyExists = await userRepository.findOne({ email });
 
-      return res.status(201).send({
-        message: "User successfully created",
-        data: user,
-      });
+// //       // const emptyFields = !name || !email || !password;
+// //       try {
+// //         const user = userRepository.create({
+// //           name,
+// //           email,
+// //           password,
+// //         });
 
-      // return res.status(200).send({ msg: "ola" });
-    },
-    // edit: (req: Request, res: Response) => {
-    //   const { id } = req.params;
-    //   const { name, email, password } = req.body;
+// //         return res.status(201).json({
+// //           message: "User successfully created",
+// //           data: user,
+// //         });
+// //       } catch (err) {
+// //         return res.status(400).send({
+// //           message: err.message || "Unexpected error.",
+// //         });
+// //       }
+// //       // const emailIsValid = validateEmail(email);
 
-    //   const user = userRepository().editUser(id, { name, email, password });
+// //       // if (userAlreadyExists)
+// //       //   return res.status(400).send({
+// //       //     message: `User already exists!`,
+// //       //   });
 
-    //   if (!user) {
-    //     return res.status(500).send({
-    //       message: "Something went wrong!",
-    //     });
-    //   }
+// //       // if (emptyFields)
+// //       //   return res.status(400).send({
+// //       //     message: `All fields need to be filled!`,
+// //       //   });
 
-    //   return res.status(200).send({
-    //     message: "User successfully updated",
-    //     data: user,
-    //   });
-    // },
-    // getAll: (req: Request, res: Response) => {
-    //   const users = userRepository().list();
+// //       // if (!emailIsValid)
+// //       //   return res.status(400).send({
+// //       //     message: `Email is invalid`,
+// //       //   });
 
-    //   if (!users) {
-    //     return res.status(500).send({
-    //       message: "Something went wrong!",
-    //     });
-    //   }
+// //       // if (password.length < 8)
+// //       //   return res.status(400).send({
+// //       //     message: `Password is invalid`,
+// //       //   });
 
-    //   return res.status(200).send({
-    //     message: "Users successfully found!",
-    //     data: users,
-    //   });
-    // },
+// //       // try {
+// //       //   const user = await userRepository.save(user);
+// //       //   return res.status(201).send({
+// //       //     message: "User successfully created",
+// //       //     data: user,
+// //       //   });
+// //       // } catch (err) {
+// //       //   return res.status(500).send({
+// //       //     message: err.message || "Unexpected error.",
+// //       //   });
+// //       // }
+// //     },
+// //     edit: async (req: Request, res: Response) => {
+// //       const userRepository = getRepository(User);
+// //       const { id } = req.params;
+// //       const { name, email, password } = req.body;
 
-    // login: (req: Request, res: Response) => {
-    //   const { email, password } = req.body;
+// //       const userFound = await userRepository.findOne({ id });
 
-    //   const user = userRepository().findByEmail(email);
+// //       if (!userFound) {
+// //         return res.status(500).send({
+// //           message: "Something went wrong!",
+// //         });
+// //       }
 
-    //   if (!user)
-    //     return res.status(404).send({
-    //       auth: false,
-    //       message: "User not found!",
-    //     });
+// //       const userUpdated = {
+// //         ...userFound,
+// //         name: name || userFound.name,
+// //         email: email || userFound.email,
+// //         password: password || userFound.password,
+// //       };
 
-    //   const validation = userRepository().checkPermission(
-    //     password,
-    //     user.password
-    //   );
+// //       try {
+// //         const user = await userRepository.save(userUpdated);
 
-    //   if (!validation)
-    //     return res.status(401).send({
-    //       auth: false,
-    //       message: "Wrong password!",
-    //     });
+// //         return res.status(201).json({
+// //           message: "User successfully updated",
+// //           data: user,
+// //         });
+// //       } catch (err) {
+// //         return res.status(500).send({
+// //           message: "Something went wrong.",
+// //         });
+// //       }
+// //     },
+// //     //   getAll: (req: Request, res: Response) => {
+// //     //     const users = userRepository().list();
 
-    //   return res.status(200).send({
-    //     auth: true,
-    //     // token,
-    //     user,
-    //   });
-    // },
-  };
-};
+// //     //     if (!users) {
+// //     //       return res.status(500).send({
+// //     //         message: "Something went wrong!",
+// //     //       });
+// //     //     }
+
+// //     //     return res.status(200).send({
+// //     //       message: "Users successfully found!",
+// //     //       data: users,
+// //     //     });
+// //     //   },
+
+// //     //   login: (req: Request, res: Response) => {
+// //     //     const { email, password } = req.body;
+
+// //     //     const user = userRepository().findByEmail(email);
+
+// //     //     if (!user)
+// //     //       return res.status(404).send({
+// //     //         auth: false,
+// //     //         message: "User not found!",
+// //     //       });
+
+// //     //     const validation = userRepository().checkPermission(
+// //     //       password,
+// //     //       user.password
+// //     //     );
+
+// //     //     if (!validation)
+// //     //       return res.status(401).send({
+// //     //         auth: false,
+// //     //         message: "Wrong password!",
+// //     //       });
+
+// //     //     return res.status(200).send({
+// //     //       auth: true,
+// //     //       // token,
+// //     //       user,
+// //     //     });
+// //     //   },
+// //     // };
+// //   };
+// // };

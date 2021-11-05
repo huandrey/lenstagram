@@ -1,11 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class CreateUser1635298793054 implements MigrationInterface {
+export class CreatePost1635734194353 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
     await queryRunner.createTable(
       new Table({
-        name: "users",
+        name: "posts",
         columns: [
           {
             name: "id",
@@ -15,17 +14,19 @@ export class CreateUser1635298793054 implements MigrationInterface {
             default: "uuid_generate_v4()",
           },
           {
-            name: "name",
+            name: "description",
             type: "varchar",
+            isNullable: true,
           },
           {
-            name: "email",
-            type: "varchar",
-            isUnique: true,
+            name: "user_id",
+            type: "uuid",
+            isNullable: false,
           },
           {
-            name: "password",
+            name: "url_img",
             type: "varchar",
+            isNullable: false,
           },
           {
             name: "created_at",
@@ -39,12 +40,20 @@ export class CreateUser1635298793054 implements MigrationInterface {
             onUpdate: "now()",
           },
         ],
+        foreignKeys: [
+          {
+            name: "FKUserPost",
+            referencedTableName: "users",
+            referencedColumnNames: ["id"],
+            columnNames: ["user_id"],
+            onDelete: "SET NULL",
+          },
+        ],
       })
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable("users");
-    await queryRunner.query('DROP EXTENSION "uuid-ossp"');
+    await queryRunner.dropTable("posts");
   }
 }
